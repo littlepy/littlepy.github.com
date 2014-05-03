@@ -10,7 +10,7 @@ Again, you can't connect the dots looking forward; you can only connect them loo
 
 <ul class="posts">
   {% for post in site.posts %}
-    <h4><li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li></h4>
+    <h5><li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li></h5>
   {% endfor %}
 </ul>
 
