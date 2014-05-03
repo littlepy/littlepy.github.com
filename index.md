@@ -4,7 +4,7 @@ title: Hello World!
 #tagline: Supporting tagline
 ---
 {% include JB/setup %}
-![Alt text](/media/55.jpg)
+![Alt text](/media/psb.jpg)
 
 Read [Jekyll Quick Start](http://jekyllbootstrap.com/usage/jekyll-quick-start.html)
 
