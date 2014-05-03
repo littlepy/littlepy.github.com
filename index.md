@@ -1,10 +1,11 @@
 ---
 layout: page
-#title: Hello World!
+title: stay hungry. stay foolish!
 #tagline: Supporting tagline
 ---
 {% include JB/setup %}
-![Alt text](/media/psb.jpg)
+
+Again, you can't connect the dots looking forward; you can only connect them looking backwards. So you have to trust that the dots will somehow connect in your future. You have to trust in something - your gut, destiny, life, karma, whatever.
 
 Read [Jekyll Quick Start](http://jekyllbootstrap.com/usage/jekyll-quick-start.html)
 
