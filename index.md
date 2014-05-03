@@ -5,7 +5,7 @@ layout: page
 ---
 {% include JB/setup %}
 
-Again, you can't connect the dots looking forward; you can only connect them looking backwards. So you have to trust that the dots will somehow connect in your future. You have to trust in something - your gut, destiny, life, karma, whatever.
+<blockquote>Again, you can't connect the dots looking forward; you can only connect them looking backwards. So you have to trust that the dots will somehow connect in your future. You have to trust in something - your gut, destiny, life, karma, whatever.</blockquote>
 
 
 <ul class="posts">
