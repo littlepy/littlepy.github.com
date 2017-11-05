@@ -6,25 +6,13 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>升级Openssh步骤 | Littlepy</title>
+  <title>Categories | Littlepy</title>
   <meta name="author" content="littlepy">
-  
-  <meta name="description" content="备份 ／lib /lib64 /usr/lib /usr/lib64 /usr/include
-准备所需软件包:
-zlib
-openssl
-openssh
-
-
-编译安装zlib
- 123./configure --prefix=/opt/zlibmakemake install
-
-编译安装opens">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="升级Openssh步骤"/>
+  <meta property="og:title" content="Categories"/>
   <meta property="og:site_name" content="Littlepy"/>
 
   
@@ -124,68 +112,30 @@ var _hmt = _hmt || [];
   <div class="container">
   	<div class="content">
     	 
-
-
 	
 		<div class="page-header">
-			<h1> 升级Openssh步骤</h1>
+			<h1> Categories</h1>
 		</div>
 	
 
 
 
-<div class="row post">
+<div class="row page">
 	<!-- cols -->
 	
-	<div id="top_meta"></div>
-	<div class="col-md-9">
+	<div class="col-md-12">
 	
 
 	<!-- content -->
 	<div class="mypage">		
 	  		
 
-	  <ol>
-<li>备份 ／lib /lib64 /usr/lib /usr/lib64 /usr/include</li>
-<li>准备所需软件包:<ul>
-<li>zlib</li>
-<li>openssl</li>
-<li>openssh</li>
-</ul>
-</li>
-<li><p>编译安装zlib</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./configure --prefix=/opt/zlib</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
-</li>
-<li><p>编译安装openssl</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./config shared --prefix=/opt/openssl</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
-</li>
-<li><p>编译安装openssh</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/opt/openssl/lib/:<span class="variable">$LD_LIBRARY_PATH</span></div><div class="line"><span class="built_in">export</span> INCLUDE=/opt/openssl/include/:<span class="variable">$INCLUDE</span></div><div class="line">./configure --prefix=/opt/sshd --with-zlib=/opt/zlib/ --with-ssl-dir=/opt/openssl</div></pre></td></tr></table></figure>
-</li>
-<li><p>设置相关环境变量</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"export LD_LIBRARY_PATH=/opt/openssl/lib/:<span class="variable">$LD_LIBRARY_PATH</span>"</span> &gt;&gt; ~./bashrc</div><div class="line"><span class="built_in">source</span> ~/.bashrc</div></pre></td></tr></table></figure>
-</li>
-<li><p>部署可执行文件</p>
-</li>
-<li>重启sshd</li>
-</ol>
-	  
+	  	  
 	</div>
 
 	<div>
   	<center>
 	<div class="pagination">
-
-    
-    
-    <a href="/2017/11/05/hello-world/" type="button" class="btn btn-default"><i
-                class="fa fa-arrow-circle-o-left"></i> Anterior</a>
-    
-
-    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
-    
-    <a type="button" class="btn btn-default disabled">Próximo<i class="fa fa-arrow-circle-o-right"></i></a>
-    
 
     
 </div>
@@ -195,43 +145,9 @@ var _hmt = _hmt || [];
 	
 	<!-- comment -->
 	
-<section id="comment">
-    <h2 class="title">Comentários</h2>
-
-    
-</section>
-
 
 	</div> <!-- col-md-9/col-md-12 -->
 		
-	
-	<div id="side_meta">
-		<div class="col-md-3" id="post_meta"> 
-
-	<!-- date -->
-	
-	<div class="meta-widget">
-	<i class="fa fa-clock-o"></i>
-	2017-09-11 
-	</div>
-	
-
-	<!-- categories -->
-    
-
-	<!-- tags -->
-		
-
-	<!-- toc -->
-	<div class="meta-widget">
-	
-	</div>
-	
-    <hr>
-	
-</div><!-- col-md-3 -->
-
-	</div>
 		
 
 </div><!-- row -->

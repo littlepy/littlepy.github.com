@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+    
+    <entry>
+      <title><![CDATA[Hello World]]></title>
+      <url>/2017/11/05/hello-world/</url>
+      <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[升级Openssh步骤]]></title>
+      <url>/2017/09/11/%E5%8D%87%E7%BA%A7Openssh%E6%AD%A5%E9%AA%A4/</url>
+      <content type="html"><![CDATA[<ol>
+<li>备份 ／lib /lib64 /usr/lib /usr/lib64 /usr/include</li>
+<li>准备所需软件包:<ul>
+<li>zlib</li>
+<li>openssl</li>
+<li>openssh</li>
+</ul>
+</li>
+<li><p>编译安装zlib</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./configure --prefix=/opt/zlib</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>编译安装openssl</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./config shared --prefix=/opt/openssl</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>编译安装openssh</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/opt/openssl/lib/:<span class="variable">$LD_LIBRARY_PATH</span></div><div class="line"><span class="built_in">export</span> INCLUDE=/opt/openssl/include/:<span class="variable">$INCLUDE</span></div><div class="line">./configure --prefix=/opt/sshd --with-zlib=/opt/zlib/ --with-ssl-dir=/opt/openssl</div></pre></td></tr></table></figure>
+</li>
+<li><p>设置相关环境变量</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"export LD_LIBRARY_PATH=/opt/openssl/lib/:<span class="variable">$LD_LIBRARY_PATH</span>"</span> &gt;&gt; ~./bashrc</div><div class="line"><span class="built_in">source</span> ~/.bashrc</div></pre></td></tr></table></figure>
+</li>
+<li><p>部署可执行文件</p>
+</li>
+<li>重启sshd</li>
+</ol>
+]]></content>
+      
+        
+    </entry>
+    
+  
+  
+</search>
