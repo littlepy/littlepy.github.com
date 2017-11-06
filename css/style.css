@@ -119,6 +119,9 @@ li i {
 	padding-bottom:15px;
 	border-bottom:1px solid #e0e0e0
 }
+.widget:last-child {
+    border-bottom: none
+}
 #local-search-input {
 	background-color:#000;
 	color:#fff;
