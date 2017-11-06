@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>Littlepy</title>
+  <meta name="author" content="littlepy">
+  
+  <meta name="description" content="PIS数据库优化与快速录入线路数据[TOC]
+一、初识最近看了下标动的pis数据库，采用了SQLite引擎。SQLite 是一个单文件、高可靠、嵌入式、全功能、无版权的SQL数据库引擎。详见SQLite官网。
+用sqlite3命令访问 PIS.db, 可见包含了如下表：
+
+数据多，难录入的几个表，也">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Littlepy"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Littlepy</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> </h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="PIS数据库优化与快速录入线路数据"><a href="#PIS数据库优化与快速录入线路数据" class="headerlink" title="PIS数据库优化与快速录入线路数据"></a>PIS数据库优化与快速录入线路数据</h1><p>[TOC]</p>
+<h2 id="一、初识"><a href="#一、初识" class="headerlink" title="一、初识"></a>一、初识</h2><p>最近看了下标动的pis数据库，采用了SQLite引擎。SQLite 是一个单文件、高可靠、嵌入式、全功能、无版权的SQL数据库引擎。详见<a href="https://www.sqlite.org/" target="_blank" rel="external">SQLite官网</a>。</p>
+<p>用sqlite3命令访问 PIS.db, 可见包含了如下表：</p>
+<p><img src="/2017/07/15/PIS数据库优化与快速录入线路数据/15000862275843/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-07-15%20%E4%B8%8B%E5%8D%8812.09.00.png" alt="屏幕快照 2017-07-15 下午12.09.00-w617"></p>
+<p><strong>数据多，难录入的几个表，也是PIS报站所需的几个关键表:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">表名</th>
+<th style="text-align:left">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">RouteList</td>
+<td style="text-align:left">线路列表</td>
+</tr>
+<tr>
+<td style="text-align:left">RouteInfo</td>
+<td style="text-align:left">线路详细信息</td>
+</tr>
+<tr>
+<td style="text-align:left">StationInfo</td>
+<td style="text-align:left">车站信息</td>
+</tr>
+</tbody>
+</table>
+<h2 id="二、问题"><a href="#二、问题" class="headerlink" title="二、问题"></a>二、问题</h2><ol>
+<li>地面编辑软件效率太低，容易出错，只适合临时增删查改。</li>
+<li>RouteList, RouteInfo, StationInfo 均无unique、唯一索引、主键约束。很容易产生重复数据，增加上层程序编写难度、导致程序异常、甚至报错站。如下图所示，StationInfo表里插入了两条重复的数据，其他三个表也是一样的问题。</li>
+</ol>
+<p><img src="/2017/07/15/PIS数据库优化与快速录入线路数据/15000862275843/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-07-15%20%E4%B8%8B%E5%8D%8812.00.24.png" alt="屏幕快照 2017-07-15 下午12.00.24-w619"></p>
+<h2 id="三、解决办法"><a href="#三、解决办法" class="headerlink" title="三、解决办法"></a>三、解决办法</h2><h4 id="1-我们先来看第二个问题"><a href="#1-我们先来看第二个问题" class="headerlink" title="1. 我们先来看第二个问题"></a>1. 我们先来看第二个问题</h4><p>为了保持原表的字段不变，我们通过给表添加唯一索引的方法解决数据重复的问题，因为在必要的时候，索引可以随时删除，而对字段的更改（添加主键或unique约束）却不可撤销。为此，我们对RouteInfo, RouteList 和 StationInfo 表添加<strong>唯一索引</strong>,代码如下</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> uniq_station_info_idx</div><div class="line">    <span class="keyword">ON</span> StationInfo (StationNameEn);</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> uniq_route_list_idx </div><div class="line">    <span class="keyword">ON</span> RouteList (TrainCode);</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> uniq_route_info_idx</div><div class="line">    <span class="keyword">ON</span> RouteInfo (TrainCode, StationOrder);</div></pre></td></tr></table></figure>
+<p>当我们再次向StationInfo表插入重复数据时，就不会成功了，如下图所示，一个车站只能写入一次。其他两个表，同理。只是，我们在RouteInfo表用了<strong>车次</strong>和<strong>站顺序号</strong>作为唯一索引，因为一个车站可以出现在多个车次中，而在一个车次中却只能出现一次。</p>
+<p><img src="/2017/07/15/PIS数据库优化与快速录入线路数据/15000862275843/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-07-15%20%E4%B8%8B%E5%8D%881.11.40.png" alt="屏幕快照 2017-07-15 下午1.11.40-w617"></p>
+<h4 id="2-我们再来看第一个问题，解决数据录入的难题"><a href="#2-我们再来看第一个问题，解决数据录入的难题" class="headerlink" title="2. 我们再来看第一个问题，解决数据录入的难题"></a>2. 我们再来看第一个问题，解决数据录入的难题</h4><p>思路：PIS数据库里的所有数据都来自路局给的一份excel表，所以我们可以通过编程实现从这份excel表里读取数据，一次性写入pis数据库各个表里。要实现这一步，首先要把路局给的excel改成我们需要的格式。如下所示，分别是原始文件和修改后的文件。</p>
+<p><img src="/2017/07/15/PIS数据库优化与快速录入线路数据/15000862275843/xiugaiqian.png" alt="xiugaiqian"></p>
+<p><strong>修改后的文件，保存为csv格式：</strong></p>
+<p><img src="/2017/07/15/PIS数据库优化与快速录入线路数据/15000862275843/xiugaihou.png" alt="xiugaihou"></p>
+<p>此时，我们可以解析excel数据，写入数据库了。这意味着，必须将一份数据解析成各个数据库表所需要的格式，程序上完全可以实现。但是，关系数据库提供了一个强大的功能：触发器(trigger)。一个触发器就相当于一系列连锁反应的开关。比如，速度、里程的变化会触发开关门、自动报站、外显点亮等。当一个数据库表被插入数据的时候，我们可以根据这个操作设置一个触发器，同时往别的数据库表里写数据。这用在我们这种情况下，再合适不过了(一份数据写入多个表内)。<br>    那么，在哪个表上设置触发器呢？如上图所示，现有的表都不能满足我们的要求。而且在现有表上设置触发器，当使用地面编辑软件的时候，可能会带来我们不想要的结果。我们需要的是这样一张表：能够包含excel表里的所有字段，并且能够包含各个站点的英文名称。所以我们新建了一张临时表，一旦数据录入完成，即可删除。如下图所示：</p>
+<p><img src="/2017/07/15/PIS数据库优化与快速录入线路数据/15000862275843/lingshibiao.png" alt="lingshibiao"></p>
+<p><img src="/2017/07/15/PIS数据库优化与快速录入线路数据/15000862275843/linshibiao2.png" alt="linshibiao2"></p>
+<p>然后，可以写我们的触发器代码了：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> station_info_tgr</div><div class="line">  <span class="keyword">after</span> <span class="keyword">insert</span> <span class="keyword">on</span> TempRouteInfo</div><div class="line">  <span class="keyword">begin</span></div><div class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> StationInfo(StationNameEn, StationNameCh, Longitude, Latitude) </div><div class="line">    <span class="keyword">select</span></div><div class="line">    new.CurrentStationEn, new.CurrentStationCh,</div><div class="line">    new.Longitude, new.Latitude <span class="keyword">where</span></div><div class="line">    <span class="keyword">not</span> <span class="keyword">exists</span> (<span class="keyword">select</span> * <span class="keyword">from</span> StationInfo <span class="keyword">where</span> StationNameEn=new.CurrentStationEn);</div><div class="line">  <span class="keyword">end</span>;</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> route_info_tgr</div><div class="line">  <span class="keyword">after</span> <span class="keyword">insert</span> <span class="keyword">on</span> TempRouteInfo</div><div class="line">  <span class="keyword">begin</span></div><div class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> RouteInfo( </div><div class="line">    TrainCode,                   </div><div class="line">    CurrentStationEn,          </div><div class="line">    CurrentStationCh,          </div><div class="line">    StationOrder,             </div><div class="line">    DistanceNextStation,     </div><div class="line">    AnnouncementDistanceThreshold)</div><div class="line">    <span class="keyword">select</span> new.TrainCode, new.CurrentStationEn, new.CurrentStationCh,</div><div class="line">           new.StationOrder, new.DistanceNextStation, new.AnnouncementDistanceThreshold</div><div class="line">    <span class="keyword">where</span> <span class="keyword">not</span> <span class="keyword">exists</span></div><div class="line">           (<span class="keyword">select</span> * <span class="keyword">from</span> RouteInfo <span class="keyword">where</span> TrainCode=new.TrainCode <span class="keyword">and</span> StationOrder=new.StationOrder);</div><div class="line">  <span class="keyword">end</span>;</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> route_list_tgr</div><div class="line">  <span class="keyword">after</span> <span class="keyword">insert</span> <span class="keyword">on</span> TempRouteInfo</div><div class="line">  <span class="keyword">begin</span></div><div class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> RouteList(</div><div class="line">        TrainCode,</div><div class="line">        OriginalStationEn,</div><div class="line">        OriginalStationCh,</div><div class="line">        LastStationEn,</div><div class="line">        LastStationCh)</div><div class="line">    <span class="keyword">select</span> new.TrainCode, new.OriginalStationEn, new.OriginalStationCh,</div><div class="line">           new.LastStationEn, new.LastStationCh</div><div class="line">    <span class="keyword">where</span> <span class="keyword">not</span> <span class="keyword">exists</span></div><div class="line">        (<span class="keyword">select</span> * <span class="keyword">from</span> RouteList <span class="keyword">where</span> TrainCode=new.TrainCode);</div><div class="line">  <span class="keyword">end</span>;</div></pre></td></tr></table></figure>
+<p>我们的Python代码如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sqlite3</div><div class="line"><span class="keyword">import</span> os, re</div><div class="line"><span class="keyword">import</span> csv, shutil</div><div class="line"><span class="keyword">import</span> pinyin</div><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RouteInfoGenerator</span>:</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, database, csv_file)</span>:</span></div><div class="line">		self.db = sqlite3.connect(database)</div><div class="line">		self.cursor = self.db.cursor()</div><div class="line">		self.csv_file = open(csv_file, encoding=<span class="string">'cp936'</span>)</div><div class="line">		self.data = self._get_data()</div><div class="line">		self.dict_data = [_ <span class="keyword">for</span> _ <span class="keyword">in</span> self.data[<span class="number">1</span>]]</div><div class="line">		self.py = partial(pinyin.get, format=<span class="string">'strip'</span>)</div><div class="line">		self.ext = <span class="string">'.mp3'</span></div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">clear</span><span class="params">(self)</span>:</span></div><div class="line">		self.csv_file.close()</div><div class="line">		self.db.commit()</div><div class="line">		self.cursor.close()</div><div class="line">		self.db.close()</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">_get_data</span><span class="params">(self)</span>:</span></div><div class="line">		list_reader = csv.reader(self.csv_file)</div><div class="line">		dict_reader = csv.DictReader(self.csv_file)</div><div class="line">		<span class="keyword">return</span> list_reader, dict_reader</div><div class="line"></div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">insert_temp_data</span><span class="params">(self)</span>:</span></div><div class="line">		self.csv_file.seek(<span class="number">0</span>)</div><div class="line">		list_data = self.data[<span class="number">0</span>]</div><div class="line">		next(list_data)</div><div class="line">		<span class="keyword">for</span> d <span class="keyword">in</span> list_data:</div><div class="line">			<span class="keyword">for</span> index <span class="keyword">in</span> (<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>):</div><div class="line">				d.insert(index, self.py(d[index]).capitalize())</div><div class="line">			self.cursor.execute(</div><div class="line">				<span class="string">"insert into TempRouteInfo values (&#123;&#125;)"</span>.format(<span class="string">','</span>.join(<span class="string">'?'</span>*<span class="number">12</span>)), d)</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">insert_audio_fields</span><span class="params">(self)</span>:</span></div><div class="line">		index = <span class="number">0</span></div><div class="line">		<span class="keyword">while</span> index &lt; len(self.dict_data):</div><div class="line">			current_station = self.dict_data[index]</div><div class="line">			current_en = self.py(current_station.get(<span class="string">'当前站'</span>))</div><div class="line">			<span class="keyword">if</span> index &lt; len(self.dict_data)<span class="number">-1</span>:</div><div class="line">				next_station = self.dict_data[index+<span class="number">1</span>]</div><div class="line">				next_en = self.py(next_station.get(<span class="string">'当前站'</span>))</div><div class="line">			<span class="keyword">else</span>:</div><div class="line">				next_en=<span class="string">'_'</span></div><div class="line">			insert_data = [</div><div class="line">				<span class="string">f'l-<span class="subst">&#123;next_en&#125;</span><span class="subst">&#123;self.ext&#125;</span>'</span>,</div><div class="line">				<span class="string">f'p-<span class="subst">&#123;next_en&#125;</span><span class="subst">&#123;self.ext&#125;</span>'</span>,</div><div class="line">				<span class="string">f'a-<span class="subst">&#123;current_en&#125;</span><span class="subst">&#123;self.ext&#125;</span>'</span>,</div><div class="line">				current_station.get(<span class="string">'线路'</span>),</div><div class="line">				current_station.get(<span class="string">'站顺序号'</span>)</div><div class="line">				]</div><div class="line">			print(insert_data)</div><div class="line">			<span class="keyword">if</span> current_station.get(<span class="string">'站顺序号'</span>) ==<span class="string">'1'</span>:</div><div class="line">				insert_data.pop(<span class="number">2</span>)</div><div class="line">				self.cursor.execute(</div><div class="line">					<span class="string">"update RouteInfo set SoundLeaveCh=?,\</span></div><div class="line"><span class="string">					SoundYBCh=? \</span></div><div class="line"><span class="string">					where TrainCode=? and StationOrder=?"</span>, insert_data)</div><div class="line">			<span class="keyword">elif</span> current_station.get(<span class="string">'终到站'</span>) == current_station.get(<span class="string">'当前站'</span>):</div><div class="line">				self.cursor.execute(</div><div class="line">					<span class="string">"update RouteInfo set SoundArrivalCh=? \</span></div><div class="line"><span class="string">					where TrainCode=? and StationOrder=?"</span>, insert_data[<span class="number">2</span>:])</div><div class="line">			<span class="keyword">else</span>:</div><div class="line">				self.cursor.execute(</div><div class="line">					<span class="string">"update RouteInfo set SoundLeaveCh=?,\</span></div><div class="line"><span class="string">					SoundYBCh=?, SoundArrivalCh=? \</span></div><div class="line"><span class="string">					where TrainCode=? and StationOrder=?"</span>, insert_data)</div><div class="line">			index += <span class="number">1</span></div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">rename_audio_files</span><span class="params">(self, audio_dir, dest_dir)</span>:</span></div><div class="line">		audio_files = os.listdir(audio_dir)</div><div class="line">		pattern = re.compile(<span class="string">r'^\d+(\w+)'</span>)</div><div class="line">		methods =&#123;</div><div class="line">			<span class="string">'通报'</span>: <span class="keyword">lambda</span> s: <span class="string">'l-'</span>+self.py(s)+<span class="string">'.mp3'</span>,</div><div class="line">			<span class="string">'预报'</span>: <span class="keyword">lambda</span> s: <span class="string">'p-'</span>+self.py(s)+<span class="string">'.mp3'</span>,</div><div class="line">			<span class="string">'确报'</span>: <span class="keyword">lambda</span> s: <span class="string">'a-'</span>+self.py(s)+<span class="string">'.mp3'</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span> file <span class="keyword">in</span> audio_files:</div><div class="line">			match = pattern.findall(file)[<span class="number">0</span>]</div><div class="line">			shutil.copy(os.path.join(audio_dir, file),</div><div class="line">				os.path.join(dest_dir, methods[match[<span class="number">-2</span>:]](match[:<span class="number">-3</span>]))</div><div class="line">			)</div></pre></td></tr></table></figure>
+<p>关于代码，我们不做过多讲解了，因为目的只有一个，实现方法千千万。我们直接看一下结果：</p>
+<p>linux下执行以下命令创建数据库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite3 newpis.db &lt; pis.sql</div></pre></td></tr></table></figure>
+<p>Windows下，命令如下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite3.exe newpis.db &lt; pis.sql</div></pre></td></tr></table></figure>
+<p>创建好数据库后，此时，数据库是空的，然后，执行我们的脚本，把excel里的数据填充进去。再次从数据库查询数据，所有数据都准确写入了数据库，如下图所示：</p>
+<p><img src="/2017/07/15/PIS数据库优化与快速录入线路数据/15000862275843/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-07-18%20%E4%B8%8B%E5%8D%883.03.53.png" alt="屏幕快照 2017-07-18 下午3.03.53-w712"></p>
+<p><img src="/2017/07/15/PIS数据库优化与快速录入线路数据/15000862275843/data.png" alt="data"></p>
+<p><img src="/2017/07/15/PIS数据库优化与快速录入线路数据/15000862275843/data2.png" alt="data2"></p>
+<p><img src="/2017/07/15/PIS数据库优化与快速录入线路数据/15000862275843/data3.png" alt="data3"></p>
+<h2 id="四、总结（没耐心的直接看这里）"><a href="#四、总结（没耐心的直接看这里）" class="headerlink" title="四、总结（没耐心的直接看这里）"></a>四、总结（没耐心的直接看这里）</h2><p>毋庸置疑，任何数据库都不应该允许重复数据出现。我们通过增加唯一索引的方式，解决了这个问题。同时，索引还可以加快数据库的查询速度，数据量大的时候，尤为明显。而且，索引是可以热插拔的，如果因为某种原因，确实需要删除它，随时都可以删掉。但是，此后因人为原因不小心写入了重复数据，再创建索引时，必须手动删除所有重复数据，这无疑是非常痛苦的。</p>
+<p>在处理数据录入时，我们在数据库端和程序端双管齐下。在数据库端，增加了临时表，并在临时表上设置了触发器，以便让数据自动写入其他表；在程序端依据中文站名自动生成英文站名以及音频文件名，并通过编写程序将路局给的音频文件自动重命名，以保持和数据库一致。在这里，我们实际上确立了两条标准：</p>
+<ul>
+<li>数据库里的报站音频文件名和英文站名看齐</li>
+<li>路局给的报站音频文件名和数据库音频文件名看齐</li>
+</ul>
+<p>基本规则（假如当前站为‘济南西’，下一站为‘南京’）：</p>
+<ul>
+<li>l-英文站名.mp3, 离站语音,    例如：l-nanjing.mp3</li>
+<li>p-英文站名.mp3, 即将到站语音,   例如：p-nanjing.mp3</li>
+<li>a-英文站名.mp3, 到站语音,          例如：a-jinanxi.mp3 </li>
+</ul>
+<p>此两项标准的确立，使得路局给的音频文件名与我们数据库报站音频文件名实现了一个简单的映射。这有什么好处呢？好处就在于，无论各个路局不同时间给的音频文件名字是什么，我们都可以通过更改其文件名，以保持和数据库一致。而不是通过地面编辑软件，让数据库去适应不同的文件名，效率低也容易出错。更何况，路局给的音频文件名可能各不相同，但总有其规律，我们可以通过编程实现自动更改其文件名，只需十几行代码，如下图示。即使是最极端的情况，路局给的音频文件名杂乱无章，通过手动重命名文件也比用地面编辑软件录入轻松的多。另外，我们的数据库不再杂乱无章，这对我们后续的维护必将大有裨益。</p>
+<p><img src="/2017/07/15/PIS数据库优化与快速录入线路数据/15000862275843/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-07-18%20%E4%B8%8B%E5%8D%883.34.34.png" alt="屏幕快照 2017-07-18 下午3.34.34-w677"></p>
+<p>最后，非常感谢孟令子提供的北京局相关数据。</p>
+<p>宋利宏 工程部</p>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+
+    
+    
+    <a href="/2017/09/11/升级Openssh步骤/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> 上一页</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a type="button" class="btn btn-default disabled">下一页<i class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+<!-- 
+<section id="comment">
+    <h2 class="title">留言</h2>
+
+    
+</section>
+
+ -->
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-07-15 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 littlepy
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a>,<a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>,<a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a> and <a href="http://getbootstrap.com/" target="_blank">BOOTSTRA.386</a>. 
+     <br> Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind.386</a>.    
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
