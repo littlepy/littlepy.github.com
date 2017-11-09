@@ -6,22 +6,19 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>C语言之从函数返回数组 | Littlepy</title>
+  <title>C语言标准库之&lt;assert.h&gt; | Littlepy</title>
   <meta name="author" content="littlepy">
   
-  <meta name="description" content="C 语言不支持从函数直接返回数组，但是可以从函数返回指针，而我们晓得数组变量名就是指向该数组第一个元素（array[0]）的地址的指针。
+  <meta name="description" content="assert 是 assert.h 中定义的一个宏
+当在引入 NDEBUG 后，所有 assert 引用皆会失效
+引入 NDEBUG 后， assert 的定义为： #define assert(ignore) ((void)0)
 
-C 语言的函数作用域不允许将函数内的变量返回给外部。所以，我们要用static 关键字改变数组的作用域。
-
-示例程序如下：
-
-
-1234567891011121">
+12345678910111213141516171819//#d">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="C语言之从函数返回数组"/>
+  <meta property="og:title" content="C语言标准库之&lt;assert.h&gt;"/>
   <meta property="og:site_name" content="Littlepy"/>
 
   
@@ -88,7 +85,7 @@ C 语言的函数作用域不允许将函数内的变量返回给外部。所以
 
 	
 		<div class="page-header">
-			<h1> C语言之从函数返回数组</h1>
+			<h1> C语言标准库之&lt;assert.h&gt;</h1>
 		</div>
 	
 
@@ -105,16 +102,17 @@ C 语言的函数作用域不允许将函数内的变量返回给外部。所以
 	<div class="mypage">		
 	  		
 
-	  <ol>
-<li><p>C 语言不支持从函数直接返回数组，但是可以从函数返回指针，而我们晓得数组变量名就是指向该数组第一个元素（array[0]）的地址的指针。</p>
-</li>
-<li><p>C 语言的函数作用域不允许将函数内的变量返回给外部。所以，我们要用static 关键字改变数组的作用域。</p>
-</li>
-<li><p>示例程序如下：</p>
-</li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">/* function to generate and return random numbers */</span></div><div class="line"><span class="function"><span class="keyword">int</span> * <span class="title">getRandom</span><span class="params">( )</span> </span>&#123;</div><div class="line">   <span class="keyword">static</span> <span class="keyword">int</span>  r[<span class="number">10</span>];</div><div class="line">   <span class="keyword">int</span> i;</div><div class="line">   <span class="comment">/* set the seed */</span></div><div class="line">   srand( (<span class="keyword">unsigned</span>)time( <span class="literal">NULL</span> ) );</div><div class="line">   <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i) &#123;</div><div class="line">      r[i] = rand();</div><div class="line">      <span class="built_in">printf</span>( <span class="string">"r[%d] = %d\n"</span>, i, r[i]);</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">return</span> r;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* main function to call above defined function */</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</div><div class="line">   <span class="comment">/* a pointer to an int */</span></div><div class="line">   <span class="keyword">int</span> *p;</div><div class="line">   <span class="keyword">int</span> i;</div><div class="line">   p = getRandom();</div><div class="line">   <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ ) &#123;</div><div class="line">      <span class="built_in">printf</span>( <span class="string">"*(p + %d) : %d\n"</span>, i, *(p + i));</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-	  
+	  <ul>
+<li>assert 是 assert.h 中定义的一个宏</li>
+<li>当在引入 NDEBUG 后，所有 assert 引用皆会失效</li>
+<li>引入 NDEBUG 后， assert 的定义为： <code>#define assert(ignore) ((void)0)</code></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//#define NDEBUG 如果定义了这个宏，下面的assert 引用皆会不起作用</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</div><div class="line">   <span class="keyword">int</span> a;</div><div class="line">   <span class="keyword">char</span> str[<span class="number">50</span>];</div><div class="line">	 </div><div class="line">   <span class="built_in">printf</span>(<span class="string">"Enter an integer value: "</span>);</div><div class="line">   <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;a);</div><div class="line">   assert(a &gt;= <span class="number">10</span>);</div><div class="line">   <span class="built_in">printf</span>(<span class="string">"Integer entered is %d\n"</span>, a);</div><div class="line">    </div><div class="line">   <span class="built_in">printf</span>(<span class="string">"Enter string: "</span>);</div><div class="line">   <span class="built_in">scanf</span>(<span class="string">"%s"</span>, str);</div><div class="line">   assert(str != <span class="literal">NULL</span>);</div><div class="line">   <span class="built_in">printf</span>(<span class="string">"String entered is: %s\n"</span>, str);</div><div class="line">	</div><div class="line">   <span class="keyword">return</span>(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>#define assert(ignore) ((void)0)</code> 中的 <strong>ignore</strong> ，意即忽略任何参数，可替换为任意字面量或置空，因为后面的宏定义没有使用这个变量。</p>
+<p>这里的 <code>(void)0</code> 把0转换为一个未定义的类型，以防后续程序把 assert 当成一个常量，而误引用。</p>
+<p>例如，当你定义 <code>int number = (void) 0;</code> 时， 编译器会报错：</p>
+<p><code>error: initializing &#39;int&#39; with an expression of incompatible type &#39;void&#39;</code></p>
+<h4 id="assert-宏的具体定义，可查看-usr-include-assert-h"><a href="#assert-宏的具体定义，可查看-usr-include-assert-h" class="headerlink" title="assert 宏的具体定义，可查看 /usr/include/assert.h"></a>assert 宏的具体定义，可查看 /usr/include/assert.h</h4>	  
 	</div>
 
 	<div>
@@ -123,13 +121,12 @@ C 语言的函数作用域不允许将函数内的变量返回给外部。所以
 
     
     
-    <a href="/2017/11/09/C语言标准库之<assert.h>/" type="button" class="btn btn-default"><i
-                class="fa fa-arrow-circle-o-left"></i> 上一页</a>
+    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>上一页</a>
     
 
     <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
     
-    <a href="/2017/09/11/升级Openssh步骤/" type="button" class="btn btn-default ">下一页<i
+    <a href="/2017/11/09/C语言之从函数返回数组/" type="button" class="btn btn-default ">下一页<i
                 class="fa fa-arrow-circle-o-right"></i></a>
     
 

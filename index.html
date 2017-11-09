@@ -101,6 +101,43 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2017/11/09/C语言标准库之<assert.h>/" >C语言标准库之&lt;assert.h&gt;</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2017-11-09  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<ul>
+<li>assert 是 assert.h 中定义的一个宏</li>
+<li>当在引入 NDEBUG 后，所有 assert 引用皆会失效</li>
+<li>引入 NDEBUG 后， assert 的定义为： <code>#define assert(ignore) ((void)0)</code></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//#define NDEBUG 如果定义了这个宏，下面的assert 引用皆会不起作用</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</div><div class="line">   <span class="keyword">int</span> a;</div><div class="line">   <span class="keyword">char</span> str[<span class="number">50</span>];</div><div class="line">	 </div><div class="line">   <span class="built_in">printf</span>(<span class="string">"Enter an integer value: "</span>);</div><div class="line">   <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;a);</div><div class="line">   assert(a &gt;= <span class="number">10</span>);</div><div class="line">   <span class="built_in">printf</span>(<span class="string">"Integer entered is %d\n"</span>, a);</div><div class="line">    </div><div class="line">   <span class="built_in">printf</span>(<span class="string">"Enter string: "</span>);</div><div class="line">   <span class="built_in">scanf</span>(<span class="string">"%s"</span>, str);</div><div class="line">   assert(str != <span class="literal">NULL</span>);</div><div class="line">   <span class="built_in">printf</span>(<span class="string">"String entered is: %s\n"</span>, str);</div><div class="line">	</div><div class="line">   <span class="keyword">return</span>(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>#define assert(ignore) ((void)0)</code> 中的 <strong>ignore</strong> ，意即忽略任何参数，可替换为任意字面量或置空，因为后面的宏定义没有使用这个变量。</p>
+<p>这里的 <code>(void)0</code> 把0转换为一个未定义的类型，以防后续程序把 assert 当成一个常量，而误引用。</p>
+<p>例如，当你定义 <code>int number = (void) 0;</code> 时， 编译器会报错：</p>
+<p><code>error: initializing &#39;int&#39; with an expression of incompatible type &#39;void&#39;</code></p>
+<h4 id="assert-宏的具体定义，可查看-usr-include-assert-h"><a href="#assert-宏的具体定义，可查看-usr-include-assert-h" class="headerlink" title="assert 宏的具体定义，可查看 /usr/include/assert.h"></a>assert 宏的具体定义，可查看 /usr/include/assert.h</h4>
+	
+	</div>
+  <a type="button" href="/2017/11/09/C语言标准库之<assert.h>/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2017/11/09/C语言之从函数返回数组/" >C语言之从函数返回数组</a>
 		</h3>
 		</div>
@@ -248,7 +285,7 @@
 		<h4>分类</h4>
 		<ul class="tag_box inline list-unstyled">
 		
-			<li><a href="/categories/clang/">clang<span>1</span></a></li>
+			<li><a href="/categories/clang/">clang<span>2</span></a></li>
 		
 			<li><a href="/categories/linux-ops/">linux_ops<span>1</span></a></li>
 		
@@ -261,15 +298,15 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/MarkDown/">MarkDown<span>1</span></a></li>
-		
 			<li><a href="/tags/openssl/">openssl<span>1</span></a></li>
-		
-			<li><a href="/tags/linux/">linux<span>1</span></a></li>
 		
 			<li><a href="/tags/ssh/">ssh<span>1</span></a></li>
 		
-			<li><a href="/tags/C语言/">C语言<span>1</span></a></li>
+			<li><a href="/tags/MarkDown/">MarkDown<span>1</span></a></li>
+		
+			<li><a href="/tags/linux/">linux<span>1</span></a></li>
+		
+			<li><a href="/tags/C语言/">C语言<span>2</span></a></li>
 		
 		 
 		</ul>
@@ -281,6 +318,10 @@
 <div class="widget">
   <h4>最新文章</h4>
   <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2017/11/09/C语言标准库之&lt;assert.h&gt;/" ><i class="fa fa-file-o"></i>C语言标准库之&lt;assert.h&gt;</a>
+      </li>
     
       <li>
         <a href="/2017/11/09/C语言之从函数返回数组/" ><i class="fa fa-file-o"></i>C语言之从函数返回数组</a>
