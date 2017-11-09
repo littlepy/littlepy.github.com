@@ -9,13 +9,13 @@
   <title>C语言之从函数返回数组 | Littlepy</title>
   <meta name="author" content="littlepy">
   
-  <meta name="description" content="C 语言不支持从函数直接返回数组，但是可以从函数返回指针，而我们晓得数组变量名就是指向该数组第一个y元素（array[0]）的地址的指针。
+  <meta name="description" content="C 语言不支持从函数直接返回数组，但是可以从函数返回指针，而我们晓得数组变量名就是指向该数组第一个元素（array[0]）的地址的指针。
 C 语言的函数作用域不允许将函数内的变量返回给外部。所以，我们要用static 关键字改变数组的作用域。
 
 示例程序如下：
 
 
-1234567891011121">
+12345678910111213">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -105,14 +105,13 @@ C 语言的函数作用域不允许将函数内的变量返回给外部。所以
 	  		
 
 	  <ol>
-<li>C 语言不支持从函数直接返回数组，但是可以从函数返回指针，而我们晓得数组变量名就是指向该数组第一个y元素（array[0]）的地址的指针。</li>
+<li>C 语言不支持从函数直接返回数组，但是可以从函数返回指针，而我们晓得数组变量名就是指向该数组第一个元素（array[0]）的地址的指针。</li>
 <li><p>C 语言的函数作用域不允许将函数内的变量返回给外部。所以，我们要用static 关键字改变数组的作用域。</p>
 </li>
 <li><p>示例程序如下：</p>
 </li>
 </ol>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">include &lt;stdio.h&gt;</div><div class="line">include &lt;time.h&gt;</div><div class="line"></div><div class="line"><span class="comment">/* function to generate and return random numbers */</span></div><div class="line"><span class="function"><span class="keyword">int</span> * <span class="title">getRandom</span><span class="params">( )</span> </span>&#123;</div><div class="line">   <span class="keyword">static</span> <span class="keyword">int</span>  r[<span class="number">10</span>];</div><div class="line">   <span class="keyword">int</span> i;</div><div class="line">   <span class="comment">/* set the seed */</span></div><div class="line">   srand( (<span class="keyword">unsigned</span>)time( <span class="literal">NULL</span> ) );</div><div class="line">   <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i) &#123;</div><div class="line">      r[i] = rand();</div><div class="line">      <span class="built_in">printf</span>( <span class="string">"r[%d] = %d\n"</span>, i, r[i]);</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">return</span> r;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* main function to call above defined function */</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</div><div class="line">   <span class="comment">/* a pointer to an int */</span></div><div class="line">   <span class="keyword">int</span> *p;</div><div class="line">   <span class="keyword">int</span> i;</div><div class="line">   p = getRandom();</div><div class="line">   <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ ) &#123;</div><div class="line">      <span class="built_in">printf</span>( <span class="string">"*(p + %d) : %d\n"</span>, i, *(p + i));</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>［完］</p>
 	  
 	</div>
 
