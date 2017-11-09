@@ -9,6 +9,12 @@
   <title>Littlepy</title>
   <meta name="author" content="littlepy">
   
+  <meta name="description" content="‘’’title: C语言之从函数返回数组‘’’
+
+C 语言不支持从函数直接返回数组，但是可以从函数返回指针，而我们晓得数组变量名就是指向该数组第一个值（array[0]）的地址。
+C 语言的函数作用域不允许将函数内的变量返回给外部。所以，我们要用static 关键字改变数组的作用域。
+示例程序如下">
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -74,48 +80,29 @@
 
   <div class="container">
   	<div class="content">
-    	 <div class="page-header logo">
-  <h1>read seriously, or your computer will crash...
-  <span class="blink-slow">∎</span></h1>
-</div>
+    	 
 
-<div class="row page">
 
 	
+		<div class="page-header">
+			<h1> </h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
 	<div class="col-md-9">
 	
 
-		<div class="slogan">
-      <i class="fa fa-heart blink-slow"></i>
-      Stay Hungry. Stay Foolish.
-</div>    
+	<!-- content -->
+	<div class="mypage">		
+	  		
 
-		<div id="top_search"></div>
-		<div class="mypage">
-		
-		<!-- title and entry -->
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2017/11/09/C语言之从函数返回数组/" ></a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2017-11-09  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>‘’’<br>title: C语言之从函数返回数组<br>‘’’</p>
+	  <p>‘’’<br>title: C语言之从函数返回数组<br>‘’’</p>
 <ol>
 <li>C 语言不支持从函数直接返回数组，但是可以从函数返回指针，而我们晓得数组变量名就是指向该数组第一个值（array[0]）的地址。</li>
 <li>C 语言的函数作用域不允许将函数内的变量返回给外部。所以，我们要用static 关键字改变数组的作用域。</li>
@@ -123,200 +110,74 @@
 </ol>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">include &lt;stdio.h&gt;</div><div class="line"></div><div class="line"><span class="comment">/* function to generate and return random numbers */</span></div><div class="line"><span class="function"><span class="keyword">int</span> * <span class="title">getRandom</span><span class="params">( )</span> </span>&#123;</div><div class="line"></div><div class="line">   <span class="keyword">static</span> <span class="keyword">int</span>  r[<span class="number">10</span>];</div><div class="line">   <span class="keyword">int</span> i;</div><div class="line"></div><div class="line">   <span class="comment">/* set the seed */</span></div><div class="line">   srand( (<span class="keyword">unsigned</span>)time( <span class="literal">NULL</span> ) );</div><div class="line">  </div><div class="line">   <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i) &#123;</div><div class="line">      r[i] = rand();</div><div class="line">      <span class="built_in">printf</span>( <span class="string">"r[%d] = %d\n"</span>, i, r[i]);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="keyword">return</span> r;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* main function to call above defined function */</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">   <span class="comment">/* a pointer to an int */</span></div><div class="line">   <span class="keyword">int</span> *p;</div><div class="line">   <span class="keyword">int</span> i;</div><div class="line"></div><div class="line">   p = getRandom();</div><div class="line">	</div><div class="line">   <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ ) &#123;</div><div class="line">      <span class="built_in">printf</span>( <span class="string">"*(p + %d) : %d\n"</span>, i, *(p + i));</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>［完］</p>
-
-	
-	</div>
-  <a type="button" href="/2017/11/09/C语言之从函数返回数组/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2017/09/11/升级Openssh步骤/" >升级Openssh步骤</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2017-09-11  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<ol>
-<li>备份 ／lib /lib64 /usr/lib /usr/lib64 /usr/include</li>
-<li>准备所需软件包:<ul>
-<li>zlib</li>
-<li>openssl</li>
-<li>openssh</li>
-</ul>
-</li>
-<li><p>编译安装zlib</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./configure --prefix=/opt/zlib</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
-</li>
-<li><p>编译安装openssl</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./config shared --prefix=/opt/openssl</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
-</li>
-<li><p>编译安装openssh</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/opt/openssl/lib/:<span class="variable">$LD_LIBRARY_PATH</span></div><div class="line"><span class="built_in">export</span> INCLUDE=/opt/openssl/include/:<span class="variable">$INCLUDE</span></div><div class="line">./configure --prefix=/opt/sshd --with-zlib=/opt/zlib/ --with-ssl-dir=/opt/openssl</div></pre></td></tr></table></figure>
-</li>
-<li><p>设置相关环境变量</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"export LD_LIBRARY_PATH=/opt/openssl/lib/:<span class="variable">$LD_LIBRARY_PATH</span>"</span> &gt;&gt; ~./bashrc</div><div class="line"><span class="built_in">source</span> ~/.bashrc</div></pre></td></tr></table></figure>
-</li>
-<li><p>部署可执行文件</p>
-</li>
-<li>重启sshd</li>
-</ol>
-
-	
-	</div>
-  <a type="button" href="/2017/09/11/升级Openssh步骤/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2016/11/14/Markdown 语法和 MWeb 写作使用说明/" >Markdown 语法和 MWeb 写作使用说明</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2016-11-14  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h2 id="Markdown-的设计哲学"><a href="#Markdown-的设计哲学" class="headerlink" title="Markdown 的设计哲学"></a>Markdown 的设计哲学</h2><blockquote>
-<p>Markdown 的目標是實現「易讀易寫」。<br>不過最需要強調的便是它的可讀性。一份使用 Markdown 格式撰寫的文件應該可以直接以純文字發佈，並且看起來不會像是由許多標籤或是格式指令所構成。<br>Markdown 的語法有個主要的目的：用來作為一種網路內容的<em>寫作</em>用語言。</p>
-</blockquote>
-	
-	</div>
-  <a type="button" href="/2016/11/14/Markdown 语法和 MWeb 写作使用说明/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-
-		</div>
-
-		<!-- pagination -->
-		<div>
-  		<center>
-		<div class="pagination">
-
-   
-</div>
-
-  		</center>
-		</div>
-
-		
-		
-	</div> <!-- col-md-9 -->
-
-	
-		<div class="col-md-3">
-	<div id="sidebar">
-	
-			
-  <div id="site_search">
-   <div class="form-group">
-    <input type="text" id="local-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control"/>
-   </div>  
-  <div id="local-search-result"></div>
-  </div>
-
-
-		
-			
-	<div class="widget">
-		<h4>分类</h4>
-		<ul class="tag_box inline list-unstyled">
-		
-			<li><a href="/categories/linux-ops/">linux_ops<span>1</span></a></li>
-		
-		</ul>
+	  
 	</div>
 
-		
-			
-	<div class="widget">
-		<h4>标签云</h4>
-		<ul class="tag_box inline list-unstyled">		
-		
-			<li><a href="/tags/ssh/">ssh<span>1</span></a></li>
-		
-			<li><a href="/tags/linux/">linux<span>1</span></a></li>
-		
-			<li><a href="/tags/openssl/">openssl<span>1</span></a></li>
-		
-			<li><a href="/tags/MarkDown/">MarkDown<span>1</span></a></li>
-		
-		 
-		</ul>
-	</div>
+	<div>
+  	<center>
+	<div class="pagination">
 
-
-		
-			
-<div class="widget">
-  <h4>最新文章</h4>
-  <ul class="entry list-unstyled">
     
-      <li>
-        <a href="/2017/11/09/C语言之从函数返回数组/" ><i class="fa fa-file-o"></i></a>
-      </li>
     
-      <li>
-        <a href="/2017/09/11/升级Openssh步骤/" ><i class="fa fa-file-o"></i>升级Openssh步骤</a>
-      </li>
+    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>上一页</a>
     
-      <li>
-        <a href="/2016/11/14/Markdown 语法和 MWeb 写作使用说明/" ><i class="fa fa-file-o"></i>Markdown 语法和 MWeb 写作使用说明</a>
-      </li>
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
     
-  </ul>
+    <a href="/2017/09/11/升级Openssh步骤/" type="button" class="btn btn-default ">下一页<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
 </div>
 
+    </center>
+	</div>
+	
+	<!-- comment -->
+<!-- 
+<section id="comment">
+    <h2 class="title">留言</h2>
+
+    
+</section>
+
+ -->
+	</div> <!-- col-md-9/col-md-12 -->
 		
-			
-<div class="widget">
-	<h4>链接</h4>
-	<ul class="blogroll list-unstyled">
 	
-		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/hexo-theme-freemind" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
-	
-		<li><i class="fa fa-github"></i><a href="https://github.com/kristopolous/BOOTSTRA.386" title="BOOTSTRA.386's Github repository." target="_blank"]);">BOOTSTRA.386</a></li>
-	
-		<li><i class="fa fa-github"></i><a href="https://github.com/blackshow/hexo-theme-freemind.386" title="Freemind.386's Github repository." target="_blank"]);">Freemind.386</a></li>
-	
-		<li><i class="fa fa-github"></i><a href="http://www.github.com/littlepy" title="My Github account." target="_blank"]);">My Github</a></li>
-	
-	</ul>
-</div>
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
 
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-09 
+	</div>
+	
 
+	<!-- categories -->
+    
+
+	<!-- tags -->
 		
-	</div> <!-- sidebar -->
-</div> <!-- col-md-3 -->
 
+	<!-- toc -->
+	<div class="meta-widget">
 	
+	</div>
 	
-</div> <!-- row-fluid -->
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
 
 	</div>
   </div>
